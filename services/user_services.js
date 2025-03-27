@@ -22,7 +22,58 @@ const findOne = async (data) => {
   return result;
 };
 
+const token_service = async (data) => {
+  console.log(data);
+  const result = await users.findOne({
+    where: {
+      user_id: data.user_id,
+      // email: data.email,
+    },
+  });
+  return result;
+};
+
+const findUserid = async (data) => {
+  const result = await users.findOne({
+    where: {
+      user_id: data,
+    },
+    attributes: ["email", "firstname", "lastname"],
+  });
+  return result;
+};
+
+const update = async (data) => {
+  const { salts, hashedpass } = getHashpwd(data.password);
+  const result = await users.update(
+    {
+      email: data.email,
+      password: salts + ":" + hashedpass,
+    },
+    {
+      where: {
+        user_id: data.user_id,
+      },
+    }
+  );
+
+  return result;
+};
+
+const remove = async (data) => {
+  const result = await users.destroy({
+    where: {
+      user_id: data,
+    },
+  });
+  return result;
+};
+
 module.exports = {
   create,
   findOne,
+  token_service,
+  update,
+  remove,
+  findUserid,
 };

@@ -5,8 +5,8 @@ function getHashpwd(password) {
   const hashedpass = crypto
     .pbkdf2Sync(password, salts, 100, 16, "SHA512")
     .toString("hex");
-  console.log(salts);
-  console.log(hashedpass);
+  // console.log(salts);
+  // console.log(hashedpass);
   return {
     salts,
     hashedpass,

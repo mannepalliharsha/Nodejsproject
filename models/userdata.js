@@ -34,11 +34,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  //   users.associate = (models) => {
-  //     users.hasOne(models.oraganizations, {
-  //       foreignKey: "user_id",
-  //     });
-  //   };
+  users.associate = (models) => {
+    // console.log(models);
+    users.hasMany(models.organizations, {
+      foreignKey: "org_admin",
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    });
+  };
 
   return users;
 };
