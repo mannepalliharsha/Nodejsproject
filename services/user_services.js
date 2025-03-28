@@ -45,19 +45,22 @@ const findUserid = async (data) => {
 
 const update = async (data) => {
   const { salts, hashedpass } = getHashpwd(data.password);
-  const result = await users.update(
-    {
-      email: data.email,
-      password: salts + ":" + hashedpass,
-    },
-    {
-      where: {
-        user_id: data.user_id,
+  try {
+    const result = await users.update(
+      {
+        email: data.email,
+        password: salts + ":" + hashedpass,
       },
-    }
-  );
-
-  return result;
+      {
+        where: {
+          user_id: data.id,
+        },
+      }
+    );
+    return result;
+  } catch (err) {
+    return false;
+  }
 };
 
 const remove = async (data) => {

@@ -1,18 +1,17 @@
 const jwt = require("jsonwebtoken");
 const { jwtpass } = require("../jwt/jwtpass");
-const { token_service } = require("../services/user_services");
-
-async function tokenValidation(req, res, next) {
+const { findOrgadmin } = require("../services/org_services");
+async function orgValidate(req, res, next) {
   const authorization = req.headers.authorization;
   try {
     const verify = jwt.verify(authorization, jwtpass);
 
     console.log(verify);
-    const result = await token_service(verify);
+    const result = await findOrgadmin(verify.user_id);
     console.log(result);
     if (result == null) {
       res.status(404).json({
-        msg: "user_id is not exist please signup to proceed",
+        msg: "org_id is not exist please signup to proceed",
       });
       return;
     }
@@ -27,5 +26,5 @@ async function tokenValidation(req, res, next) {
 }
 
 module.exports = {
-  tokenValidation,
+  orgValidate,
 };

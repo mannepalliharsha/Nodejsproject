@@ -6,8 +6,6 @@ const {
   findUserid,
 } = require("../services/user_services");
 
-
-
 const { verifyHashpwd } = require("../passwordhashing/hashing");
 
 const jwt = require("jsonwebtoken");
@@ -58,12 +56,14 @@ const find = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
+  console.log("vardhan");
   const result = await update(req.body);
   console.log(result);
+  console.log("hello");
   console.log(result.length);
-  if (result[0] == 0) {
+  if (!result) {
     res.status(404).json({
-      msg: "user_id is not exist",
+      msg: "Duplicate email entry",
     });
     return;
   }
@@ -73,8 +73,7 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  console.log(req.params.id);
-  const result = await remove(req.params.id);
+  const result = await remove(req.body.id);
   console.log(result);
   if (!result) {
     res.status(404).json({
@@ -89,7 +88,20 @@ const deleteUser = async (req, res) => {
 };
 
 const getUserId = async (req, res) => {
-  const result = await findUserid(req.params.id);
+  if (req.params.id !== "null") {
+    const result = await findUserid(req.params.id);
+    if (!result) {
+      res.status(404).json({
+        msg: "userId is not exist  please signup",
+      });
+      return;
+    }
+    res.status(200).json({
+      data: result,
+    });
+    return;
+  }
+  const result = await findUserid(req.body.id);
   if (!result) {
     res.status(404).json({
       msg: "userId is not exist  please signup",

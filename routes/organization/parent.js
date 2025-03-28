@@ -4,7 +4,7 @@ const router = express.Router();
 
 const org = require("./create_org");
 const update = require("./updatebyuserid");
-const remove = require("./deletebyuserid");
+const remove = require("./deletebyorgid");
 const getorg = require("./getOrgbyid");
 
 router.use("/create", org);

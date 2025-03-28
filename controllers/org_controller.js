@@ -1,4 +1,10 @@
-const { create, update, remove, findOne } = require("../services/org_services");
+const {
+  create,
+  update,
+  remove,
+  findOne,
+  findOrgadmin,
+} = require("../services/org_services");
 
 const create_controller = async (req, res) => {
   const result = await create(req.body.org_name, req.body.id);
@@ -47,18 +53,33 @@ const delete_controller = async (req, res) => {
 };
 
 const get_controller = async (req, res) => {
-  const result = await findOne(req.params.id);
-  if (result == null) {
-    res.status(404).json({
-      msg: " org_id is not exist",
+  if (req.params.id != "null") {
+    const result = await findOne(req.body.id);
+    if (result == null) {
+      res.status(404).json({
+        msg: " org_id is not exist",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      msg: result,
+    });
+    return;
+  } else {
+    const result = await findOrgadmin(req.body.id);
+    if (result == null) {
+      res.status(404).json({
+        msg: " org_id is not exist",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      msg: result,
     });
     return;
   }
-
-  res.status(200).json({
-    msg: result,
-  });
-  return;
 };
 
 module.exports = {

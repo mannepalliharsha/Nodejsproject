@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       org_admin: {
         type: DataTypes.UUID,
         allowNull: false,
+        unique: true,
       },
     },
     {

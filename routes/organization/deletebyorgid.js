@@ -2,10 +2,11 @@ const express = require("express");
 
 const router = express.Router();
 
-const { tokenValidation } = require("../../middleware/tokenValidation");
 
 const { delete_controller } = require("../../controllers/org_controller");
 
-router.delete("/", tokenValidation, delete_controller);
+const { orgValidate } = require("../../middleware/orgValidate");
+
+router.delete("/", orgValidate, delete_controller);
 
 module.exports = router;

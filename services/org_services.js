@@ -15,6 +15,7 @@ const create = async (org_name, org_id) => {
   }
 };
 
+
 const update = async (data, id) => {
   try {
     await organizations.update(
@@ -58,9 +59,23 @@ const remove = async (id) => {
   }
 };
 
+const findOrgadmin = async (id) => {
+  try {
+    const result = await organizations.findOne({
+      where: {
+        org_admin: id,
+      },
+    });
+    return result;
+  } catch (err) {
+    return null;
+  }
+};
+
 module.exports = {
   create,
   update,
   findOne,
   remove,
+  findOrgadmin,
 };

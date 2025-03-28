@@ -4,19 +4,30 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(
-      "organizations",
+      "teams",
       {
-        org_id: {
+        team_id: {
           type: Sequelize.UUID,
           defaultValue: Sequelize.UUIDV4,
           allowNull: false,
           primaryKey: true,
         },
-        org_name: {
+        team_name: {
           type: Sequelize.STRING,
           allowNull: false,
         },
-        org_admin: {
+        org_id: {
+          type: Sequelize.UUID,
+          allowNull: false,
+          unique: true,
+          references: {
+            model: "organizations",
+            key: "org_id",
+          },
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
+        },
+        team_admin: {
           type: Sequelize.UUID,
           allowNull: false,
           unique: true,
@@ -24,8 +35,8 @@ module.exports = {
             model: "users",
             key: "user_id",
           },
+          onUpdate: "CASCADE",
           onDelete: "CASCADE",
-          OnUpdate: "CASCADE",
         },
       },
       {
@@ -35,6 +46,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("organizations");
+    await queryInterface.dropTable("teams");
   },
 };

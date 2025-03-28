@@ -1,11 +1,9 @@
 const express = require("express");
 
 const router = express.Router();
-
-const { updateUser } = require("../../controllers/user_controller");
-
+const { create_controller } = require("../../controllers/team_controller");
 const { tokenValidation } = require("../../middleware/tokenValidation");
 
-router.put("/", tokenValidation, updateUser);
+router.post("/", tokenValidation, create_controller);
 
 module.exports = router;
